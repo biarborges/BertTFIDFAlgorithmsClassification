@@ -607,7 +607,13 @@
         "text": "  There are better places than LOCATION1 to go hang out"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1250,
         "text": "  i live in LOCATION1 and not much happened here thankfully"
     },
@@ -2831,7 +2837,13 @@
         "text": " write your address in google postal code  LOCATION1 is not very nice"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 185,
         "text": " yes LOCATION1 needs two unemployment offices to manage the copius claims"
     },

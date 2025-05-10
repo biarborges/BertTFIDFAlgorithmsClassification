@@ -1115,7 +1115,13 @@
         "text": "  There's one place you must visit here in London - LOCATION1 and it's markets"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1648,
         "text": "  Think most of the marketing agencies of London are located in and around LOCATION1 - it's also where most of the advertising companies locate to as well "
     },
@@ -2441,7 +2447,13 @@
         "text": " LOCATION1  is a pretty desirable area you will see what I mean"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 447,
         "text": " LOCATION1  is a very prosperous suburb"
     },
@@ -2715,7 +2727,18 @@
         "text": " LOCATION1 and LOCATION2 are both okay , again , affordable and good transport"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            },
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION2"
+            }
+        ],
         "id": 1132,
         "text": " LOCATION1 and LOCATION2 are is full of more pretentious hipsters than chavs"
     },
@@ -3401,7 +3424,13 @@
         "text": " LOCATION1 is very upmarket and many artists live there"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2008,
         "text": " LOCATION1 isn't too expensive either"
     },
@@ -4045,7 +4074,18 @@
         "text": " Of course there are cheaper areas - LOCATION1, near to the London but somewhat dangerous"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            },
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION2"
+            }
+        ],
         "id": 814,
         "text": " On the othere hand i know lads from LOCATION1 who are in The royal engineers serving and they some of the hardest and good boys i have ever Met and they come up to Liverpool"
     },
@@ -5432,7 +5472,13 @@
         "text": "\" Or \"LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1737,
         "text": "\", to which, this woman's reply was: \"NO, it's most certainly bloody well NOT part of LOCATION1, girl- how dare you even suggest such a thing"
     },
@@ -5607,7 +5653,13 @@
         "text": ") I should mention that the area on the LOCATION1 side of LOCATION1 is generally a bit quieter and leafier "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 789,
         "text": ") I, personally, love LOCATION1, (about three miles up the road from LOCATION2), but again, it's quite dear to live down there"
     },
@@ -5759,7 +5811,13 @@
         "text": "-Bramah Museum of Tea and Coffee -Cartoon Museum -Free lunchtime concerts at St Martin In The Fields -Sunday Stroll Skate in LOCATION1 -Comedy Cafe (free on Wednesday nights) -In the 02 you can get superimposed into a music video, use props and makeup and stuff"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2103,
         "text": "-if you were situated in LOCATION1, would it really be possible to be able to get into an agency in London, although they are the best ones"
     },
@@ -5869,7 +5927,13 @@
         "text": "A cheaper option yet is LOCATION1 which is just right over the river from LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1569,
         "text": "A circus school in LOCATION1 - now that really lowers the tone"
     },
@@ -5911,7 +5975,13 @@
         "text": "A houseboat went up for sale yesterday which is moored at LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1143,
         "text": "A lot of events happen in LOCATION1, for example: Katie Price and others do book signings there; JLS performed there one-off concert in the Fairfields Hall (I've performed there before"
     },
@@ -5937,7 +6007,13 @@
         "text": "A new friend of mine is from London, UK and I asked her what part she's from, she said LOCATION2, which is in LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "transit-location",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 950,
         "text": "A number of train stations have ben upgraded including LOCATION2 and LOCATION1 "
     },
@@ -6078,7 +6154,13 @@
         "text": "Again, more towards the outer edges/boarders of LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2139,
         "text": "Agree with LOCATION2 I can't understand the thumbs down for LOCATION1, that area is having lots of money thrown at it right now"
     },
@@ -6153,7 +6235,13 @@
         "text": "All free  I think your two would probably also enjoy the huge botanic gardens at LOCATION1  "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1572,
         "text": "All human life can be found in LOCATION1, from immigrants and students to celebrities and literati types"
     },
@@ -6387,7 +6475,13 @@
         "text": "Also could look around LOCATION1 area but think thats more were the grad students go"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2368,
         "text": "Also in the LOCATION1 area are museums such as the LOCATION1 museum or Jack the Ripper museum"
     },
@@ -6466,7 +6560,13 @@
         "text": "Also worth a visit is LOCATION1 for it's famous horsestable market which is like an Aladdin's Cave of curios"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1380,
         "text": "Also, I'm not sure whether you'd consider this a good or a bad thing (I say good), but LOCATION1 in particular happens to have a fairly sizeable Irish population"
     },
@@ -6671,7 +6771,13 @@
         "text": "Although the area has a lacklustre reputation, the housing stock around LOCATION1 is not cheap at all"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1924,
         "text": "An excellent secondary school called Dunraven is in LOCATION1 on LOCATION2"
     },
@@ -6712,7 +6818,18 @@
         "text": "And then there's LOCATION2 or right in the heart of LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            },
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION2"
+            }
+        ],
         "id": 936,
         "text": "And to make matters worse this has spread to most areas of LOCATION1 with the support of New Labour movement"
     },
@@ -6925,7 +7042,18 @@
         "text": "Anywhere BUT LOCATION1 or LOCATION2 "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "price",
+                "target_entity": "LOCATION1"
+            },
+            {
+                "sentiment": "Negative",
+                "aspect": "price",
+                "target_entity": "LOCATION2"
+            }
+        ],
         "id": 295,
         "text": "Anywhere around LOCATION1 and LOCATION2, for example, can command extortionate rent"
     },
@@ -6946,7 +7074,13 @@
         "text": "Anywhere around LOCATION1 is up and coming with the new Olympic village being built and its accompanying Westfiled shopping centre "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 924,
         "text": "Anywhere north of London is going to be cheap compared to LOCATION2  i live in LOCATION1"
     },
@@ -7280,7 +7414,13 @@
         "text": "As for what to do , LOCATION1 is great for indie pubs and gigs , as is LOCATION2 "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1072,
         "text": "As much as I love LOCATION1, I wouldn't say it's the best It also depends on what your looking for in an area"
     },
@@ -7566,7 +7706,13 @@
         "text": "Avoid LOCATION1, (where I come from), like the bloody Black Death"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1594,
         "text": "Avoid LOCATION1, it's full of drunks, even first thing in the morning"
     },
@@ -7597,7 +7743,13 @@
         "text": "Avoid LOCATION2 and LOCATION1 because there's alot of crime in these areas"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2199,
         "text": "Avoid areas  of  LOCATION1 "
     },
@@ -7645,7 +7797,13 @@
         "text": "Avoid the so called \"murder mile\" round LOCATION1 and LOCATION2 in North London"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 951,
         "text": "Baker st not the most exciting place its probably LOCATION1 Uni as Baker St is knowhere near LOCATION1"
     },
@@ -7712,7 +7870,13 @@
         "text": "Basically yes there are places to that are leafy and fairly quiet but no where will ever be as quiet as outside London LOCATION1 is okay"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 561,
         "text": "Be aware that main roads like LOCATION1 Road and LOCATION2 Road can be pretty noisy"
     },
@@ -7744,7 +7908,13 @@
         "text": "Better areas include LOCATION1 and LOCATION2 for instance"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 591,
         "text": "Bexley is quite good too  It depends on the parts of the boroughs: LOCATION2: The far south of the borough is nice i e  around LOCATION1 Village"
     },
@@ -7781,7 +7951,13 @@
         "text": "Born and bred in LOCATION1 "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2243,
         "text": "Boroughs such as LOCATION1 border the county of Kent but are deemed 'inner London' due to socio-economic reasons, and feel to all Londoners as part of London"
     },
@@ -7823,7 +7999,13 @@
         "text": "British Airways fly to LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 202,
         "text": "But I found LOCATION1 to be too chaotic and loud"
     },
@@ -7937,7 +8119,13 @@
         "text": "But avoid the immediate areas around LHR, inc; LOCATION1, LOCATION2, "
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1553,
         "text": "But like I said before its a bit or lot slower  The LOCATION1 only covers a small area of lonndon and the east "
     },
@@ -7963,7 +8151,13 @@
         "text": "But the room is in LOCATION1, on Paulet Road"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1006,
         "text": "But then again a cold wet afternoon in LOCATION1 or LOCATION2 can also be amazing"
     },
@@ -8016,7 +8210,13 @@
         "text": "But your best bet is to come down to happy ole LOCATION1 and take a long walk round the area and see what you think yourself :)"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1822,
         "text": "But, good luck to you  I know his family lives in LOCATION1"
     },
@@ -8074,7 +8274,13 @@
         "text": "Can't help you with the pub, but there are plenty of \"old fashioned\" ones, check the beerintheevening website  Dunno about Tower Hamlets, but I applied for a job in LOCATION1 quite a few years back now, and for the record, I totally disagree with Mrs"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 910,
         "text": "Cant say they are all like that but its my observation It is in the LOCATION1"
     },
@@ -8281,7 +8487,13 @@
         "text": "Commuting - stick to LOCATION1 and you can either drive it or catch the District line into LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1067,
         "text": "Contrary to my advice, if you do go there, don't move to LOCATION1"
     },
@@ -8483,7 +8695,13 @@
         "text": "Do n't stray too far towards LOCATION1 ( which would n't even happen by walking as it 's still quite a bit away ) I actually think LOCATION1 is a bit of a hidden gem"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 111,
         "text": "Do some online research to give you an idea what's out there, but going to see a show in London's LOCATION1 is always a good idea"
     },
@@ -8563,7 +8781,13 @@
         "text": "Don't know much about LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 985,
         "text": "Don't let anyone trick you into going to LOCATION1 with you, haha"
     },
@@ -8584,7 +8808,18 @@
         "text": "Don't live in the LOCATION2 Naaa, theres nothing wrong with LOCATION1"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION2"
+            },
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 301,
         "text": "Don't live in the east end Going to the LOCATION2 match on Saturday to see Sheff Wed's, we don't like drinking too near the ground so are looking at going to LOCATION1 for a session"
     },
@@ -8736,7 +8971,18 @@
         "text": "Even LOCATION2 and LOCATION1 are in the ancient county of Kent"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION2"
+            },
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1912,
         "text": "Even the nicer areas such as LOCATION2 and LOCATION1 have taken a turn for the worse"
     },
@@ -8784,7 +9030,13 @@
         "text": "Everything is slightly more expensive in LOCATION1 / LOCATION2"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2339,
         "text": "Everywhere else is working class and rough  Maybe LOCATION2 but to be honest none is great, look north or the river and LOCATION1 is a dive, i would know i lived there for 3 years, i am glad i have managed to move before i got killed  You need to establish your meaning ; are you asking this as a wealthy individual or a person of more modest means"
     },
@@ -9186,7 +9438,13 @@
         "text": "Frankly I'm not a fan of LOCATION1 - though LOCATION2 is always a good option, with excellent local schools and wonderful shopping"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Positive",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1884,
         "text": "Freddie Davies the comedian and actor was born in LOCATION1 in 1937. David Bowie was born in Stansfield Road, LOCATION1"
     },
@@ -9398,12 +9656,24 @@
         "text": "Giving LOCATION1 a very wide berth might be your best course of action"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1885,
         "text": "Go more toward LOCATION1 and things get a bit dodgier, but still hardly terrible"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 2414,
         "text": "Go on a reki and see how you feel yourself   I have worked in LOCATION1 many times"
     },
@@ -9424,12 +9694,24 @@
         "text": "Go to LOCATION1 and to LOCATION2"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 833,
         "text": "Go to LOCATION1 on a Sunday, not going to elaborate on this one, see for yourself"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1372,
         "text": "Go to LOCATION1 station, wait for some Rasta to offer you skunk "
     },
@@ -9594,7 +9876,13 @@
         "text": "Gotta say LOCATION1 mate"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 863,
         "text": "Great  I agree with Daniel  but these sites might be useful for you:   think LOCATION2 gets a raw deal because it's close to some dodgy areas like LOCATION1, and because it's not a well known area, but actually it's alright, a bit of a hidden gem in fact"
     },
@@ -9916,7 +10204,13 @@
         "text": "Hopefully you will find people with real stories about LOCATION1, not just generalisations"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1920,
         "text": "How about a pretentious 1 bed apartment in LOCATION1 with views of a railway track"
     },
@@ -10661,7 +10955,13 @@
         "text": "I didn't want to pay middle of London hotel prices so I decided to stay in LOCATION1 (which I thought was London because it is London borough of LOCATION1)"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 222,
         "text": "I do like LOCATION1, but it is definitely less safe than Kirby Street"
     },
@@ -11051,7 +11351,13 @@
         "text": "I have lots of mates that live in LOCATION1 and they have cool bars and lots of cultural food (especially Indian)"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1503,
         "text": "I have met loads of people with dogs, every journey I made was filled with dogs- not the same in other areas I have lived in,  Loads of areas have dogs, but all it takes is one annoying person to leave their dog outside for the LOCATION1 to be disruptive to everyone else"
     },
@@ -13724,7 +14030,13 @@
         "text": "I'm going to be studying at the Qantm College which is at LOCATION1 Road, near LOCATION2"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 1040,
         "text": "I'm in touch with a very nice family, but they live in LOCATION1 and this is the zone 4 of the London"
     },
@@ -14225,7 +14537,13 @@
         "text": "If you are at the end adjoining LOCATION2 and LOCATION1, you should be all right"
     },
     {
-        "opinions": [],
+        "opinions": [
+            {
+                "sentiment": "Negative",
+                "aspect": "general",
+                "target_entity": "LOCATION1"
+            }
+        ],
         "id": 425,
         "text": "If you are interested in the monarchy and the trappings of power , LOCATION1 is the place for you"
     },
