@@ -1,15 +1,18 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
+from tqdm import tqdm
 
 # Caminho do arquivo de entrada
 entrada_csv = "corpus_processadoTFIDF.csv"
 saida_csv = "corpus_tfidf.csv"
 
+tqdm.pandas()
+
 # Ler os dados
 df = pd.read_csv(entrada_csv)
 
 # Juntar os tokens em string novamente
-df['review_text_str'] = df['review_text_processed'].apply(lambda x: ' '.join(eval(x)))
+df['review_text_str'] = df['review_text_processed'].progress_apply(lambda x: ' '.join(eval(x)))
 
 # Inicializar o vetor TF-IDF
 vectorizer = TfidfVectorizer()
