@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Caminho do arquivo de entrada
-entrada_csv = "../BertTFIDFAlgorithmsClassification/1.olistkaggle - Código 2 classes ptbr/corpus_processadoTFIDF.csv"
-saida_csv = "../BertTFIDFAlgorithmsClassification/1.olistkaggle - Código 2 classes ptbr/corpus_tfidf.csv"
+entrada_csv = "corpus_processadoTFIDF.csv"
+saida_csv = "corpus_tfidf.csv"
 
 # Ler os dados
 df = pd.read_csv(entrada_csv)
