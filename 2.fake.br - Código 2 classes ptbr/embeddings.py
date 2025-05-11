@@ -1,6 +1,6 @@
 import pandas as pd
 import torch
-from transformers import BertTokenizer, BertModel
+from transformers import AutoTokenizer, AutoModel
 from tqdm import tqdm
 
 # Caminho do CSV processado
@@ -11,8 +11,8 @@ csv_saida = "corpus_embeddings.csv"
 df = pd.read_csv(csv_entrada)
 
 # Carrega o modelo BERT pré-treinado (multilingual)
-tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
-model = BertModel.from_pretrained('bert-base-multilingual-cased')
+tokenizer = AutoTokenizer.from_pretrained('neuralmind/bert-base-portuguese-cased')
+model = AutoModel.from_pretrained('neuralmind/bert-base-portuguese-cased')
 model.eval()
 
 # Se tiver GPU e quiser usar:
