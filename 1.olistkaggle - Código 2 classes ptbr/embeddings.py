@@ -4,8 +4,8 @@ from transformers import BertTokenizer, BertModel
 from tqdm import tqdm
 
 # Caminho do CSV processado
-csv_entrada = "../BertTFIDFAlgorithmsClassification/1.olistkaggle - Código 2 classes ptbr/corpus_processadoBERT.csv"
-csv_saida = "../BertTFIDFAlgorithmsClassification/1.olistkaggle - Código 2 classes ptbr/olist_embeddings.csv"
+csv_entrada = "corpus_processadoBERT.csv"
+csv_saida = "corpus_embeddings.csv"
 
 # Carregar dados
 df = pd.read_csv(csv_entrada)
