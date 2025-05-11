@@ -4,6 +4,9 @@ import re
 # Função de pré-processamento
 def preprocess_text(text):
 
+    # Remover caracteres especiais, mas preservar pontuação
+    text = re.sub(r'[^\w\sçÇáàãâéêíóôõúüÁÀÃÂÉÊÍÓÔÕÚÜ.,!?;:()\-]', '', text)
+
     # Normalizar espaços
     text = re.sub(r'\s+', ' ', text).strip()
 

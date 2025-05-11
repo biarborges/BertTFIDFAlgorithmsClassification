@@ -17,8 +17,8 @@ def preprocess_text(text):
     # Lowercasing
     text = text.lower()
 
-    # Remover pontuação
-    text = re.sub(r'[^a-zA-ZÀ-ÿ\s]', '', text)
+    # Remover pontuação e caracteres especiais
+    text = re.sub(r'[^\w\sçÇáàãâéêíóôõúüÁÀÃÂÉÊÍÓÔÕÚÜ]', '', text)
 
     # Normalizar espaços
     text = re.sub(r'\s+', ' ', text).strip()
