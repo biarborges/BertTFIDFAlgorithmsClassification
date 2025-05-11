@@ -23,9 +23,11 @@ model.to(device)
 def get_bert_embedding(text):
     with torch.no_grad():
         inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=512)
+        inputs = {k: v.to(device) for k, v in inputs.items()}
         outputs = model(**inputs)
-        cls_embedding = outputs.last_hidden_state[0, 0, :].numpy()  # [CLS] token
+        cls_embedding = outputs.last_hidden_state[0, 0, :].cpu().numpy()  # [CLS] token
         return cls_embedding
+
 
 # Gerar embeddings com barra de progresso
 tqdm.pandas()
