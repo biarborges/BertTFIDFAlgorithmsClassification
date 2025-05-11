@@ -23,7 +23,7 @@ df = pd.read_csv(arquivo_csv)
 df['noticia'] = df['noticia'].astype(str).apply(preprocess_text)
 
 # Selecionar colunas finais
-df_novo = df[['noticia', 'FakeTrue', 'categoria']]
+df_novo = df[['noticia', 'FakeTrue']]
 
 # Salvar
 df_novo.to_csv(saida_csv, index=False)

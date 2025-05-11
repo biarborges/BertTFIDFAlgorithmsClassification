@@ -36,7 +36,6 @@ print(f"Conversão concluída em {time.time() - start:.2f} segundos\n")
 
 # Adicionar colunas
 df_tfidf['FakeTrue'] = df['FakeTrue'].values
-df_tfidf['categoria'] = df['categoria'].values
 
 # Salvar em CSV
 print("Salvando CSV final...")
