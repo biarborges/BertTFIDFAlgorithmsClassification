@@ -34,7 +34,7 @@ def get_bert_embedding(text):
 
 # Gerar embeddings com barra de progresso
 tqdm.pandas()
-df['embedding'] = df['noticias'].progress_apply(get_bert_embedding)
+df['embedding'] = df['noticia'].progress_apply(get_bert_embedding)
 
 # Salvar em CSV (opcional: você pode salvar como pickle, que mantém arrays)
 df[['embedding', 'FakeTrue']].to_pickle(csv_saida.replace('.csv', '.pkl'))
