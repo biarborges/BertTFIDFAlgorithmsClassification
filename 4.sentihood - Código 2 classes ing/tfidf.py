@@ -18,7 +18,7 @@ print(f"Leitura concluída em {time.time() - start:.2f} segundos\n")
 # Juntar os tokens
 print("Reconstruindo textos com progress_apply...")
 start = time.time()
-df['texto'] = df['noticia'].progress_apply(lambda x: ' '.join(eval(x)))
+df['texto'] = df['text'].progress_apply(lambda x: ' '.join(eval(x)))
 print(f"Reconstrução concluída em {time.time() - start:.2f} segundos\n")
 
 # Vetorização TF-IDF
@@ -35,8 +35,7 @@ df_tfidf = pd.DataFrame(X_tfidf.toarray(), columns=vectorizer.get_feature_names_
 print(f"Conversão concluída em {time.time() - start:.2f} segundos\n")
 
 # Adicionar colunas
-df_tfidf['FakeTrue'] = df['FakeTrue'].values
-df_tfidf['categoria'] = df['categoria'].values
+df_tfidf['sentiment'] = df['sentiment'].values
 
 # Salvar em CSV
 print("Salvando CSV final...")
