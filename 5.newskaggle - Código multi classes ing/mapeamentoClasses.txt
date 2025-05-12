@@ -1,0 +1,6 @@
+Mapeamento das classes:
+business → 0
+education → 1
+entertainment → 2
+sports → 3
+technology → 4

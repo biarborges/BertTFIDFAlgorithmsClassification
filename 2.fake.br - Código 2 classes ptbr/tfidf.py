@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 
 # Caminho do arquivo de entrada
-entrada_csv = "corpus_processadoTFIDF.csv"
+entrada_csv = "corpus_processadoTFIDF_classesNumericas.csv"
 saida_csv = "corpus_tfidf.csv"
 
 tqdm.pandas()

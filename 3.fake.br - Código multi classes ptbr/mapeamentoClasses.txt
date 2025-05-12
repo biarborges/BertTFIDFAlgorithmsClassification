@@ -1,0 +1,7 @@
+Mapeamento das classes:
+ciencia_tecnologia → 0
+economia → 1
+politica → 2
+religiao → 3
+sociedade_cotidiano → 4
+tv_celebridades → 5

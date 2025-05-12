@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModel
 from tqdm import tqdm
 
 # Caminho do CSV processado
-csv_entrada = "corpus_processadoBERT.csv"
+csv_entrada = "corpus_processadoBERT_classesNumericas.csv"
 csv_saida = "corpus_embeddings.csv"
 
 # Carregar dados
