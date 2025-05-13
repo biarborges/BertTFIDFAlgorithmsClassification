@@ -57,7 +57,7 @@ print(f"Matriz de Confusão:\n{cm}")
 # 11. Salvar a matriz de confusão colorida como imagem
 print("🔄 Salvando a matriz de confusão como imagem...")
 plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=["Classe 0", "Classe 1"], yticklabels=["Classe 0", "Classe 1"])
+sns.heatmap(cm, annot=True, fmt="d", cmap="Spring", xticklabels=["Classe 0", "Classe 1"], yticklabels=["Classe 0", "Classe 1"])
 plt.xlabel("Classe Predita")
 plt.ylabel("Classe Real")
 plt.title("Matriz de Confusão")
