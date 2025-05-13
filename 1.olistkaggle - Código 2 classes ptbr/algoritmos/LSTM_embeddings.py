@@ -54,8 +54,8 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
     X_train, X_val = X_temp[train_idx], X_temp[val_idx]
     y_train, y_val = y_temp[train_idx], y_temp[val_idx]
 
-    train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=16, shuffle=True)
-    val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=16, shuffle=False)
+    train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=8, shuffle=True)
+    val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=8, shuffle=False)
 
     input_dim = X.shape[1]  # Número de características (dimensão dos embeddings)
     hidden_dim = 128  # Tamanho do vetor escondido da LSTM
@@ -101,7 +101,7 @@ final_model = LSTMModel(input_dim, hidden_dim, output_dim)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(final_model.parameters(), lr=0.001)
 
-final_loader = DataLoader(TensorDataset(X_temp, y_temp), batch_size=16, shuffle=True)
+final_loader = DataLoader(TensorDataset(X_temp, y_temp), batch_size=8, shuffle=True)
 for epoch in range(epochs):
     final_model.train()
     for inputs, labels in tqdm(final_loader, desc=f"Final Época {epoch+1}/{epochs}"):
@@ -113,7 +113,7 @@ for epoch in range(epochs):
 
 # Avaliar no conjunto de TESTE
 print("\n🧪 Avaliação no conjunto de TESTE")
-test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=16, shuffle=False)
+test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=8, shuffle=False)
 y_test_pred, y_test_true = [], []
 
 final_model.eval()
