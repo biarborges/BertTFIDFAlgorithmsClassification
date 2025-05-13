@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 # Caminho do CSV processado
 csv_entrada = "corpus_processadoBERT_classesNumericas.csv"
-csv_saida = "corpus_embeddings_seq.pkl"
+csv_saida = "corpus_embeddingsLSTM.pkl"
 
 # Carregar dados
 df = pd.read_csv(csv_entrada)
@@ -35,15 +35,15 @@ def get_bert_sequence_embeddings(text):
         )
         inputs = {k: v.to(device) for k, v in inputs.items()}
         outputs = model(**inputs)
-        # Pegamos a sequência inteira de embeddings dos tokens (não só o CLS)
+        # Pega a sequência inteira de embeddings dos tokens (não só o CLS)
         sequence_output = outputs.last_hidden_state.squeeze(0).cpu().numpy()  # shape: (MAX_LEN, 768)
         return sequence_output
 
 # Aplicar com progresso
 tqdm.pandas()
-df['embedding_seq'] = df['content'].progress_apply(get_bert_sequence_embeddings)
+df['embedding'] = df['review_text_processed'].progress_apply(get_bert_sequence_embeddings)
 
 # Salvar como Pickle (mantém arrays grandes)
-df[['embedding_seq', 'category']].to_pickle(csv_saida)
+df[['embedding', 'polarity']].to_pickle(csv_saida)
 
 print(f"Embeddings sequenciais salvos como: {csv_saida}")
