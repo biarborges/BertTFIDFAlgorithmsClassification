@@ -5,7 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
 # 1. Carregar dados
-df = pd.read_csv("1.olistkaggle - Código 2 classes ptbr/corpus_tfidf.csv")
+df = pd.read_csv("../corpus_tfidf.csv")
 
 # 2. Vetorização com TF-IDF
 vectorizer = TfidfVectorizer(max_features=5000)
@@ -29,6 +29,6 @@ output_df = pd.DataFrame({
 })
 
 # 7. Salvar o arquivo de saída com as classes originais e preditas
-output_df.to_csv("../BertTFIDFAlgorithmsClassification/1.olistkaggle - Código 2 classes ptbr/algoritmos/resultado_arvoreDecisaoTFIDF.csv", index=False)
+output_df.to_csv("resultado_arvoreDecisaoTFIDF.csv", index=False)
 
 print("Classificação finalizada e arquivo salvo como 'resultado_arvoreDecisaoTFIDF.csv'")
