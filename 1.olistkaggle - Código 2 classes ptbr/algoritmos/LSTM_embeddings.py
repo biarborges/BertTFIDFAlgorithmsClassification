@@ -8,7 +8,7 @@ import pickle
 from sklearn.metrics import accuracy_score, f1_score
 
 # 1. Carregar os dados do pickle
-with open('corpus_embeddings.pkl', 'rb') as f:
+with open('../corpus_embeddings.pkl', 'rb') as f:
     data = pickle.load(f)
 
 # 'data' deve conter os embeddings (X) e as classes (y)
