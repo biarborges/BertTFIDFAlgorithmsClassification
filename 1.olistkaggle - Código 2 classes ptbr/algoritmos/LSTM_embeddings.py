@@ -12,8 +12,8 @@ with open('../corpus_embeddings.pkl', 'rb') as f:
     data = pickle.load(f)
 
 # 'data' deve conter os embeddings (X) e as classes (y)
-X = torch.tensor(data['embeddings'])  # Embeddings
-y = torch.tensor(data['classes'])    # Classes
+X = torch.tensor(data['embedding'])  # Embeddings
+y = torch.tensor(data['polarity'])    # Classes
 
 # 2. Definir o modelo LSTM
 class LSTMModel(nn.Module):
