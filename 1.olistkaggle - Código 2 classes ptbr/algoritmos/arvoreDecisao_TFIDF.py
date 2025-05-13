@@ -2,7 +2,9 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
-from tqdm import tqdm  # Importando a biblioteca tqdm para a barra de progresso
+import seaborn as sns
+import matplotlib.pyplot as plt
+from tqdm import tqdm  # Para a barra de progresso
 
 # 1. Carregar dados
 print("🔄 Carregando os dados...")
@@ -51,3 +53,15 @@ print(f"\n📊 Resultados Finais Globais:")
 print(f"Acurácia: {acc:.4f}")
 print(f"F1-score: {f1:.4f}")
 print(f"Matriz de Confusão:\n{cm}")
+
+# 11. Salvar a matriz de confusão colorida como imagem
+print("🔄 Salvando a matriz de confusão como imagem...")
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=["Classe 0", "Classe 1"], yticklabels=["Classe 0", "Classe 1"])
+plt.xlabel("Classe Predita")
+plt.ylabel("Classe Real")
+plt.title("Matriz de Confusão")
+plt.savefig("matriz_confusao.png")  # Salva como imagem
+plt.close()  # Fecha a figura
+
+print("✅ Matriz de Confusão salva como 'matriz_confusao.png'.")
