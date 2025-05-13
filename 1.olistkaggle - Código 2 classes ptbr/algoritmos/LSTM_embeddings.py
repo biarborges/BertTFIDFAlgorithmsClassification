@@ -32,7 +32,7 @@ def load_data_in_batches(file_path, batch_size=1000):
         # Verificar consistência dos embeddings
         assert all(e.shape == embedding_shape for e in batch_embeddings), "Embeddings têm tamanhos diferentes!"
         
-        yield torch.tensor(np.stack(batch_embeddings), torch.tensor(batch_polarity))
+        yield torch.tensor(np.stack(batch_embeddings)), torch.tensor(batch_polarity)
 
 # Carregar todos os dados
 try:
