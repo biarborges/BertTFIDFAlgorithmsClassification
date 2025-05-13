@@ -5,7 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
 # 1. Carregar dados
-df = pd.read_csv("../BertTFIDFAlgorithmsClassification/1.olistkaggle - Código 2 classes ptbr/corpus_processadoTFIDF_classesNumericas.csv")
+df = pd.read_csv("../1.olistkaggle - Código 2 classes ptbr/corpus_tfidf.csv")
 
 # 2. Vetorização com TF-IDF
 vectorizer = TfidfVectorizer(max_features=5000)
