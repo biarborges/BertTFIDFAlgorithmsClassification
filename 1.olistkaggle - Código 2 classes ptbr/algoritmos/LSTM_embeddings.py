@@ -12,8 +12,8 @@ from tqdm import tqdm
 with open('../corpus_embeddingsLSTM.pkl', 'rb') as f:
     data = pickle.load(f)
 
-X = torch.tensor(data['embedding'])  # Embeddings
-y = torch.tensor(data['polarity'])   # Classes
+X = torch.tensor(np.array(data['embedding']))# Embeddings
+y = torch.tensor(np.array(data['polarity']))   # Classes
 
 # 2. Separar 15% dos dados para TESTE
 X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.15, stratify=y, random_state=42)
