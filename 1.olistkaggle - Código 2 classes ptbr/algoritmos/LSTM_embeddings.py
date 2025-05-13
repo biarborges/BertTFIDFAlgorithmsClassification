@@ -8,15 +8,15 @@ from sklearn.metrics import accuracy_score, f1_score
 from tqdm import tqdm
 import gc
 
-# 1. Dataset otimizado
-class EfficientDataset(Dataset):
+# 1. Dataset seguro para memória
+class SafeDataset(Dataset):
     def __init__(self, pkl_path):
         self.pkl_path = pkl_path
         with open(pkl_path, 'rb') as f:
             data = pickle.load(f)
             self.length = len(data['embedding'])
             self.embedding_shape = data['embedding'][0].shape
-            self.polarities = data['polarity'].values if hasattr(data['polarity'], 'values') else data['polarity']
+            self.polarities = data['polarity'].values if hasattr(data['polarity'], 'values') else np.array(data['polarity'])
             del data
     
     def __len__(self):
@@ -29,19 +29,19 @@ class EfficientDataset(Dataset):
             emb = emb.values if hasattr(emb, 'values') else emb
             return torch.tensor(emb, dtype=torch.float32), torch.tensor(self.polarities[idx], dtype=torch.long)
 
-# 2. Modelo LSTM corrigido
-class FixedLSTM(nn.Module):
+# 2. Modelo LSTM com tratamento de dimensões
+class SafeLSTM(nn.Module):
     def __init__(self, input_size):
         super().__init__()
         self.lstm = nn.LSTM(input_size, 16, batch_first=True)
         self.fc = nn.Linear(16, 2)
     
     def forward(self, x):
-        # Garante que a entrada seja 3D [batch, seq_len, features]
+        # Garante as dimensões corretas [batch, seq_len, features]
         if x.dim() == 2:
-            x = x.unsqueeze(1)  # Adiciona dimensão temporal se necessário
+            x = x.unsqueeze(1)  # Adiciona dimensão temporal
         elif x.dim() > 3:
-            x = x.squeeze()  # Remove dimensões extras
+            x = x.view(x.size(0), 1, -1)  # Redimensiona corretamente
         
         x, _ = self.lstm(x)
         return self.fc(x[:, -1, :])
@@ -51,53 +51,59 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.manual_seed(42)
 print(f"📌 Usando dispositivo: {device}")
 
-print("🚀 Carregando dados...")
-dataset = EfficientDataset('../corpus_embeddingsLSTM.pkl')
+# 4. Carregar dados
+print("🚀 Carregando dataset...")
+try:
+    dataset = SafeDataset('../corpus_embeddingsLSTM.pkl')
+    print(f"✅ Dataset carregado com {len(dataset)} amostras")
+except Exception as e:
+    print(f"❌ Erro ao carregar dataset: {e}")
+    exit()
 
-# 4. Divisão dos dados
+# 5. Divisão dos dados
 indices = list(range(len(dataset)))
 train_idx, test_idx = train_test_split(indices, test_size=0.2, random_state=42)
 
-# 5. DataLoaders
-train_loader = DataLoader(
-    dataset,
-    batch_size=8,
-    sampler=torch.utils.data.SubsetRandomSampler(train_idx),
-    num_workers=0
-)
+# 6. DataLoaders com verificação de dimensões
+def create_loader(dataset, indices, batch_size):
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        sampler=torch.utils.data.SubsetRandomSampler(indices),
+        num_workers=0,
+        drop_last=True  # Evita batches incompletos
+    )
 
-test_loader = DataLoader(
-    dataset,
-    batch_size=16,
-    sampler=torch.utils.data.SubsetRandomSampler(test_idx),
-    num_workers=0
-)
+train_loader = create_loader(dataset, train_idx, 8)
+test_loader = create_loader(dataset, test_idx, 16)
 
-# 6. Treinamento
-model = FixedLSTM(dataset.embedding_shape[0]).to(device)
+# 7. Treinamento com verificação de dimensões
+model = SafeLSTM(dataset.embedding_shape[0]).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 criterion = nn.CrossEntropyLoss()
 
-print("\n🔥 Treinamento iniciado...")
+print("\n🔥 Iniciando treinamento...")
 for epoch in range(3):
     model.train()
-    optimizer.zero_grad()
-    
-    for i, (X, y) in enumerate(tqdm(train_loader, desc=f"Época {epoch+1}/3")):
-        X, y = X.to(device), y.to(device)
-        
-        # Verificação de dimensões
-        if X.dim() not in [2, 3]:
-            X = X.view(X.size(0), -1).unsqueeze(1)
-        
-        outputs = model(X)
-        loss = criterion(outputs, y)
-        loss.backward()
-        optimizer.step()
-        optimizer.zero_grad()
-        
-        if i % 100 == 0:
-            torch.cuda.empty_cache()
+    for X, y in tqdm(train_loader, desc=f"Época {epoch+1}/3"):
+        try:
+            X, y = X.to(device), y.to(device)
+            
+            # Verificação adicional de dimensões
+            if X.dim() != 3:
+                X = X.view(X.size(0), 1, -1)
+            
+            outputs = model(X)
+            loss = criterion(outputs, y)
+            
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+        except Exception as e:
+            print(f"\n⚠️ Erro durante o treinamento: {e}")
+            print(f"Dimensões do batch: {X.shape}")
+            continue
     
     # Validação
     model.eval()
@@ -113,10 +119,13 @@ for epoch in range(3):
     f1 = f1_score(y_true, y_pred, average='weighted')
     print(f"Validação - Acurácia: {acc:.4f}, F1: {f1:.4f}")
 
-# 7. Salvamento
-results_df = pd.DataFrame({
-    'original': y_true,
-    'predicted': y_pred
-})
-results_df.to_csv('resultados_lstm_final.csv', index=False)
-print("\n✅ Resultados salvos em 'resultados_lstm_final.csv'")
+# 8. Salvamento seguro
+try:
+    results_df = pd.DataFrame({
+        'original': y_true,
+        'predicted': y_pred
+    })
+    results_df.to_csv('resultados_seguros.csv', index=False)
+    print("\n✅ Resultados salvos em 'resultados_seguros.csv'")
+except Exception as e:
+    print(f"\n⚠️ Erro ao salvar resultados: {e}")
