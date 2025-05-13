@@ -8,7 +8,7 @@ import pickle
 from sklearn.metrics import accuracy_score, f1_score
 from tqdm import tqdm
 
-# Detectar dispositivo
+# Verificar se a GPU está disponível
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"📌 Usando dispositivo: {device}")
 
@@ -25,10 +25,9 @@ assert all(e.shape == embedding_shape for e in data['embedding']), "Embeddings t
 X = torch.tensor(np.stack(data['embedding']), dtype=torch.float32)
 y = torch.tensor(np.array(data['polarity']), dtype=torch.long)
 
-# Verificar as formas
 print(f"X shape: {X.shape}, y shape: {y.shape}")
 
-# 2. Separar 15% para TESTE
+# 2. Separar 15% dos dados para TESTE
 X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.15, stratify=y, random_state=42)
 
 # 3. K-Fold nos 85% restantes
@@ -43,13 +42,14 @@ class LSTMModel(nn.Module):
         super(LSTMModel, self).__init__()
         self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
         self.fc = nn.Linear(hidden_dim, output_dim)
-    
+
     def forward(self, x):
-        lstm_out, (h_n, _) = self.lstm(x)
+        # x: (batch_size, seq_len=1, input_dim)
+        lstm_out, (h_n, c_n) = self.lstm(x)
         output = self.fc(h_n[-1])
         return output
 
-# 5. Cross-validation
+# 5. Cross-validation nos 85%
 for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
     print(f"\n🔁 Treinando o modelo - Fold {fold+1}/5")
 
@@ -72,8 +72,8 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
         model.train()
         running_loss = 0.0
         for inputs, labels in tqdm(train_loader, desc=f"Época {epoch+1}/{epochs}"):
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            inputs, labels = inputs.to(device), labels.to(device)
+            inputs = inputs.unsqueeze(1)  # (batch_size, 1, input_dim)
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = criterion(outputs, labels)
@@ -87,8 +87,8 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
     y_pred, y_true = [], []
     with torch.no_grad():
         for inputs, labels in tqdm(val_loader, desc="🔎 Validação"):
-            inputs = inputs.to(device)
-            labels = labels.to(device)
+            inputs, labels = inputs.to(device), labels.to(device)
+            inputs = inputs.unsqueeze(1)
             outputs = model(inputs)
             _, predicted = torch.max(outputs, 1)
             y_pred.extend(predicted.cpu().numpy())
@@ -100,7 +100,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
     f1_scores.append(f1)
     print(f"Fold {fold+1} - Acurácia: {acc:.4f}, F1: {f1:.4f}")
 
-# 6. Treinar modelo final para o TESTE
+# 6. Treinar modelo final com todos os dados de treino+validação e avaliar no TESTE
 print("\n🏁 Treinando modelo final para teste...")
 
 final_model = LSTMModel(input_dim, hidden_dim, output_dim).to(device)
@@ -111,15 +111,15 @@ final_loader = DataLoader(TensorDataset(X_temp, y_temp), batch_size=4, shuffle=T
 for epoch in range(epochs):
     final_model.train()
     for inputs, labels in tqdm(final_loader, desc=f"Final Época {epoch+1}/{epochs}"):
-        inputs = inputs.to(device)
-        labels = labels.to(device)
+        inputs, labels = inputs.to(device), labels.to(device)
+        inputs = inputs.unsqueeze(1)
         optimizer.zero_grad()
         outputs = final_model(inputs)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
-# 7. Avaliação no TESTE
+# Avaliar no conjunto de TESTE
 print("\n🧪 Avaliação no conjunto de TESTE")
 test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=4, shuffle=False)
 y_test_pred, y_test_true = [], []
@@ -127,23 +127,26 @@ y_test_pred, y_test_true = [], []
 final_model.eval()
 with torch.no_grad():
     for inputs, labels in tqdm(test_loader, desc="🔬 Testando"):
-        inputs = inputs.to(device)
-        labels = labels.to(device)
+        inputs, labels = inputs.to(device), labels.to(device)
+        inputs = inputs.unsqueeze(1)
         outputs = final_model(inputs)
         _, predicted = torch.max(outputs, 1)
         y_test_pred.extend(predicted.cpu().numpy())
         y_test_true.extend(labels.cpu().numpy())
 
-# 8. Salvar CSV
+test_acc = accuracy_score(y_test_true, y_test_pred)
+test_f1 = f1_score(y_test_true, y_test_pred, average='weighted')
+
+# 7. Salvar CSV
 df_out = pd.DataFrame({
     'original_class': y_test_true,
     'predicted_class': y_test_pred
 })
 df_out.to_csv('predicted_classes_test.csv', index=False)
 
-# 9. Métricas finais
+# 8. Métricas
 print(f"\n📊 MÉTRICAS FINAIS")
 print(f"Acurácia média (validação K-Fold): {np.mean(accuracies):.4f}")
 print(f"F1 médio (validação K-Fold): {np.mean(f1_scores):.4f}")
-print(f"Acurácia no TESTE: {accuracy_score(y_test_true, y_test_pred):.4f}")
-print(f"F1 Score no TESTE: {f1_score(y_test_true, y_test_pred, average='weighted'):.4f}")
+print(f"Acurácia no TESTE: {test_acc:.4f}")
+print(f"F1 Score no TESTE: {test_f1:.4f}")
