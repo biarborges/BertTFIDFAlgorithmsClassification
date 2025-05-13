@@ -12,8 +12,17 @@ from tqdm import tqdm
 with open('../corpus_embeddingsLSTM.pkl', 'rb') as f:
     data = pickle.load(f)
 
-X = torch.tensor(np.array(data['embedding']), dtype=torch.float32)# Embeddings
-y = torch.tensor(np.array(data['polarity']), dtype=torch.float32)   # Classes
+# Verificar a forma dos embeddings e garantir que todos têm o mesmo tamanho
+first_embedding = data['embedding'][0]
+embedding_shape = first_embedding.shape
+assert all(e.shape == embedding_shape for e in data['embedding']), "Embeddings têm tamanhos diferentes!"
+
+# Empilhar corretamente os embeddings em uma matriz 2D
+X = torch.tensor(np.stack(data['embedding']), dtype=torch.float32)  # Embeddings
+y = torch.tensor(np.array(data['polarity']), dtype=torch.long)  # Classes
+
+# Verifique as formas de X e y para garantir que está correto
+print(f"X shape: {X.shape}, y shape: {y.shape}")
 
 # 2. Separar 15% dos dados para TESTE
 X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.15, stratify=y, random_state=42)
@@ -32,7 +41,9 @@ class LSTMModel(nn.Module):
         self.fc = nn.Linear(hidden_dim, output_dim)
     
     def forward(self, x):
+        # Passar as entradas pela LSTM
         lstm_out, (h_n, c_n) = self.lstm(x)
+        # Usar a última camada de saída da LSTM
         output = self.fc(h_n[-1])
         return output
 
@@ -46,9 +57,9 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
     train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=32, shuffle=True)
     val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=32, shuffle=False)
 
-    input_dim = X.shape[1]
-    hidden_dim = 128
-    output_dim = len(torch.unique(y))
+    input_dim = X.shape[1]  # Número de características (dimensão dos embeddings)
+    hidden_dim = 128  # Tamanho do vetor escondido da LSTM
+    output_dim = len(torch.unique(y))  # Número de classes de saída
 
     model = LSTMModel(input_dim, hidden_dim, output_dim)
     criterion = nn.CrossEntropyLoss()
@@ -60,7 +71,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_temp)):
         running_loss = 0.0
         for inputs, labels in tqdm(train_loader, desc=f"Época {epoch+1}/{epochs}"):
             optimizer.zero_grad()
-            outputs = model(inputs.float())
+            outputs = model(inputs.float())  # Convertendo para float32
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
