@@ -19,20 +19,33 @@ def load_data_in_batches(file_path, batch_size=1000):
     with open(file_path, 'rb') as f:
         data = pickle.load(f)
     
-    # Verificar a forma dos embeddings
+    # Verificar e converter os embeddings
     first_embedding = data['embedding'][0]
+    if hasattr(first_embedding, 'values'):  # Se for uma Series do pandas
+        first_embedding = first_embedding.values
     embedding_shape = first_embedding.shape
     
-    # Processar em lotes para economizar memória
+    # Processar em lotes
     num_samples = len(data['embedding'])
     for i in range(0, num_samples, batch_size):
-        batch_embeddings = data['embedding'][i:i+batch_size]
+        # Converter embeddings para numpy array se forem Series
+        batch_embeddings = [e.values if hasattr(e, 'values') else e for e in data['embedding'][i:i+batch_size]]
+        batch_embeddings = np.stack(batch_embeddings)
+        
+        # Converter polaridades para numpy array se forem Series
         batch_polarity = data['polarity'][i:i+batch_size]
+        if hasattr(batch_polarity, 'values'):  # Se for uma Series
+            batch_polarity = batch_polarity.values
+        batch_polarity = np.array(batch_polarity)
         
-        # Verificar consistência dos embeddings
-        assert all(e.shape == embedding_shape for e in batch_embeddings), "Embeddings têm tamanhos diferentes!"
+        # Verificar consistência
+        assert all((e.shape == embedding_shape) for e in batch_embeddings), "Embeddings têm tamanhos diferentes!"
         
-        yield torch.tensor(np.stack(batch_embeddings)), torch.tensor(batch_polarity)
+        # Converter para tensores
+        X_batch = torch.tensor(batch_embeddings, dtype=torch.float32)
+        y_batch = torch.tensor(batch_polarity, dtype=torch.long)
+        
+        yield X_batch, y_batch
 
 # Carregar todos os dados
 try:
