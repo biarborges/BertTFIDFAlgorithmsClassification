@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"📌 Usando dispositivo: {device}")
 
 # 1. Carregar os dados do pickle
-with open('../corpus_embeddingsLSTM.pkl', 'rb') as f:
+with open('../corpus_tfidf.csv', 'rb') as f:
     data = pickle.load(f)
 
 # Verificar a forma dos embeddings e garantir que todos têm o mesmo tamanho
