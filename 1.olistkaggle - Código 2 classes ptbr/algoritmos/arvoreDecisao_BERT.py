@@ -14,7 +14,7 @@ df = pd.read_pickle("../corpus_embeddings.pkl")
 # 2. Separar as colunas
 print("🔄 Separando as colunas de características e classe...")
 
-X = np.vstack(df['embeddings'].values)  # Transforma lista de vetores em matriz
+X = np.vstack(df['embedding'].values)  # Transforma lista de vetores em matriz
 y = df['polarity'].values
 
 # 3. Configurar StratifiedKFold
