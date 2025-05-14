@@ -4,6 +4,7 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 from tqdm import tqdm  # Para a barra de progresso
 
 # 1. Carregar dados
@@ -12,8 +13,9 @@ df = pd.read_pickle("../corpus_embeddings.pkl")
 
 # 2. Separar as colunas
 print("🔄 Separando as colunas de características e classe...")
-X = df.drop(columns=['polarity']).values  # Os dados de características (TF-IDF)
-y = df['polarity'].values  # A classe (polaridade)
+
+X = np.vstack(df['embeddings'].values)  # Transforma lista de vetores em matriz
+y = df['polarity'].values
 
 # 3. Configurar StratifiedKFold
 print("🔄 Configurando a validação cruzada (StratifiedKFold)...")
