@@ -8,7 +8,7 @@ from tqdm import tqdm  # Para a barra de progresso
 
 # 1. Carregar dados
 print("🔄 Carregando os dados...")
-df = pd.read_csv("../corpus_embeddings.pkl")
+df = pd.read_pickle("../corpus_embeddings.pkl")
 
 # 2. Separar as colunas
 print("🔄 Separando as colunas de características e classe...")
