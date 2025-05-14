@@ -1,10 +1,10 @@
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-from tqdm import tqdm  # Para a barra de progresso
+from tqdm import tqdm
 
 # 1. Carregar dados
 print("🔄 Carregando os dados...")
@@ -12,56 +12,69 @@ df = pd.read_csv("../corpus_tfidf.csv")
 
 # 2. Separar as colunas
 print("🔄 Separando as colunas de características e classe...")
-X = df.drop(columns=['polarity']).values  # Os dados de características (TF-IDF)
-y = df['polarity'].values  # A classe (polaridade)
+X = df.drop(columns=['polarity']).values
+y = df['polarity'].values
 
 # 3. Configurar StratifiedKFold
 print("🔄 Configurando a validação cruzada (StratifiedKFold)...")
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-# 4. Armazenar previsões e verdadeiros
+# 4. Armazenar previsões e melhores parâmetros
 all_y_true = []
 all_y_pred = []
+melhores_parametros = []
 
-# 5. Loop de validação cruzada com barra de progresso
-print("🔄 Iniciando a validação cruzada...")
-for train_idx, test_idx in tqdm(skf.split(X, y), total=5, desc="Validação Cruzada"):
+# 5. Hiperparâmetros para busca
+param_grid = {
+    'max_depth': [5, 10, 15],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
+}
+
+# 6. Loop com GridSearchCV
+print("🔄 Iniciando a validação cruzada com ajuste de hiperparâmetros...")
+for i, (train_idx, test_idx) in enumerate(tqdm(skf.split(X, y), total=5, desc="Validação Cruzada")):
+    print(f"\n🔁 Fold {i+1}")
     X_train, X_test = X[train_idx], X[test_idx]
     y_train, y_test = y[train_idx], y[test_idx]
 
-    # 6. Treinar o modelo de Árvore de Decisão
-    print("🔄 Treinando o modelo de Árvore de Decisão...")
-    clf = DecisionTreeClassifier(max_depth=10, class_weight='balanced', random_state=42)
-    clf.fit(X_train, y_train)
+    # GridSearch
+    base_clf = DecisionTreeClassifier(class_weight='balanced', random_state=42)
+    grid_search = GridSearchCV(base_clf, param_grid, cv=3, scoring='f1_weighted', n_jobs=-1)
+    grid_search.fit(X_train, y_train)
 
-    # 7. Fazer previsões
-    print("🔄 Realizando previsões...")
-    y_pred = clf.predict(X_test)
+    best_clf = grid_search.best_estimator_
+    melhores_parametros.append(grid_search.best_params_)
 
-    # 8. Armazenar as previsões e verdadeiros
+    print(f"✅ Melhores parâmetros do fold {i+1}: {grid_search.best_params_}")
+
+    # Previsão
+    y_pred = best_clf.predict(X_test)
     all_y_true.extend(y_test)
     all_y_pred.extend(y_pred)
 
-# 9. Avaliação única global
-print("🔄 Calculando as métricas de avaliação...")
+# 7. Avaliação final
+print("\n🔍 Avaliação Global:")
 acc = accuracy_score(all_y_true, all_y_pred)
 f1 = f1_score(all_y_true, all_y_pred, average='weighted')
 cm = confusion_matrix(all_y_true, all_y_pred)
 
-# 10. Exibir os resultados finais
-print(f"\n📊 Resultados Finais Globais:")
 print(f"Acurácia: {acc:.4f}")
 print(f"F1-score: {f1:.4f}")
 print(f"Matriz de Confusão:\n{cm}")
 
-# 11. Salvar a matriz de confusão colorida como imagem
-print("🔄 Salvando a matriz de confusão como imagem...")
+# 8. Matriz de confusão colorida
+print("🖼️ Salvando matriz de confusão...")
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Classe 0", "Classe 1"], yticklabels=["Classe 0", "Classe 1"])
 plt.xlabel("Classe Predita")
 plt.ylabel("Classe Real")
-plt.title("Matriz de Confusão")
-plt.savefig("matriz_confusao.png")  # Salva como imagem
-plt.close()  # Fecha a figura
+plt.title("Matriz de Confusão com GridSearchCV (TF-IDF)")
+plt.savefig("MC_arvore_tfidf.png")
+plt.close()
+print("✅ Matriz salva como 'MC_arvore_tfidf.png'.")
 
-print("✅ Matriz de Confusão salva como 'matriz_confusao.png'.")
+# 9. Exibir os melhores parâmetros por fold
+print("\n📌 Melhores parâmetros por fold:")
+for i, params in enumerate(melhores_parametros):
+    print(f"Fold {i+1}: {params}")
