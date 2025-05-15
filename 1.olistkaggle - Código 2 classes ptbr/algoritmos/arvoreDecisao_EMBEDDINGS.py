@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
-df = pd.read_csv("../corpus_tfidf.csv")
+df = pd.read_pickle("../corpus_embeddings.pkl")
 
-# 2. Separar características e classe
-X = df.drop(columns=['polarity']).values
+# 2. Separar embeddings e classes
+X = np.vstack(df['embedding'].values)
 y = df['polarity'].values
 
 # 3. Dividir em treino (85%) e teste (15%)
