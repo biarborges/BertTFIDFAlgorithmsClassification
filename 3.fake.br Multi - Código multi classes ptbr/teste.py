@@ -6,9 +6,10 @@ entrada_csv = "../BertTFIDFAlgorithmsClassification/3.fake.br - Código multi cl
 # Lê o CSV de entrada
 df = pd.read_csv(entrada_csv, encoding='utf-8', sep=',', quotechar='"')
 
+# Contagem por categoria
+contagem = df['categoria'].value_counts()
+print("\nContagem de textos por categoria:")
+print(contagem)
 
-nulos = df[df['noticia'].isna()]
-print(f"Total de linhas com notícia nula: {len(nulos)}")
-print(nulos[['noticia', 'categoria']])
 
 

@@ -1,3 +1,7 @@
 Mapeamento das classes:
 Negative → 0
 Positive → 1
+
+
+Positive    2344
+Negative    1288

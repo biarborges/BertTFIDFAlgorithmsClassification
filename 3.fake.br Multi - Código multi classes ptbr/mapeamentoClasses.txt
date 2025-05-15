@@ -1,0 +1,15 @@
+Mapeamento das classes:
+ciencia_tecnologia → 0
+economia → 1
+politica → 2
+religiao → 3
+sociedade_cotidiano → 4
+tv_celebridades → 5
+
+
+politica               4180
+tv_celebridades        1544
+sociedade_cotidiano    1276
+ciencia_tecnologia      112
+religiao                 44
+economia                 44
