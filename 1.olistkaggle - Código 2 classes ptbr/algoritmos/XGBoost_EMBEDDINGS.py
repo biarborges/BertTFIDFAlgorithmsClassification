@@ -33,9 +33,9 @@ print("🔄 Iniciando GridSearchCV com XGBoost...")
 clf = XGBClassifier(
     objective='binary:logistic',
     eval_metric='logloss',
-    use_label_encoder=False,
     random_state=42,
-    tree_method='gpu_hist'  # ou 'gpu_hist' se quiser forçar uso da GPU
+    tree_method = "hist", 
+    device = "cuda" 
 )
 grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1)
 grid_search.fit(X_train, y_train)
