@@ -57,7 +57,7 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
             yticklabels=["Negative", "Positive"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - XGBoost (15% Test)")
+plt.title("Confusion Matrix - XGBoost TF-IDF (15% Test)")
 plt.savefig("MC_xgboost_tfidf.png")
 plt.close()
 print("✅ Matriz salva como 'MC_xgboost_tfidf.png'.")
