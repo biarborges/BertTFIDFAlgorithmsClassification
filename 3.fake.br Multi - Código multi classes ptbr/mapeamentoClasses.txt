@@ -6,6 +6,13 @@ religiao → 3
 sociedade_cotidiano → 4
 tv_celebridades → 5
 
+Science and Technology
+Economy
+Politics
+Religion
+Society and Daily Life
+TV and Celebrities
+
 
 politica               4180
 tv_celebridades        1544

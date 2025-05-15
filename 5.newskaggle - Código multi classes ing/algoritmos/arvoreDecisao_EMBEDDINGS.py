@@ -50,7 +50,7 @@ print(f"Matriz de Confusão:\n{cm}")
 
 # 8. Matriz de confusão
 plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Negative", "Positive"], yticklabels=["Negative", "Positive"])
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["business", "education", "entertainment", "sports", "technology"], yticklabels=["business", "education", "entertainment", "sports", "technology"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
 plt.title("Confusion Matrix (15% Test)")

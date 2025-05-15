@@ -4,3 +4,5 @@ education → 1
 entertainment → 2
 sports → 3
 technology → 4
+
+2k cada
