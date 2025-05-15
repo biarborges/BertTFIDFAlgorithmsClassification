@@ -53,6 +53,6 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Classe 0", "C
 plt.xlabel("Classe Predita")
 plt.ylabel("Classe Real")
 plt.title("Matriz de Confusão (85/15)")
-plt.savefig("MC_arvore_tfidf.png")
+plt.savefig("MC_arvore_embeddings.png")
 plt.close()
-print("✅ Matriz salva como 'MC_arvore_tfidf.png'.")
+print("✅ Matriz salva como 'MC_arvore_embeddings.png'.")
