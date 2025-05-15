@@ -4,7 +4,8 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
-from xgboost import XGBClassifier
+from xgboost import XGBClassifier, DMatrix
+import cupy as cp  # Biblioteca para arrays na GPU
 
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
@@ -34,8 +35,8 @@ clf = XGBClassifier(
     objective='binary:logistic',
     eval_metric='logloss',
     random_state=42,
-    tree_method = "hist", 
-    device = "cuda" 
+    tree_method='hist',  # usa a GPU
+    device='cuda'
 )
 grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1)
 grid_search.fit(X_train, y_train)
@@ -46,7 +47,15 @@ print(f"✅ Melhores parâmetros encontrados: {grid_search.best_params_}")
 
 # 7. Avaliação no conjunto de teste
 print("🔍 Avaliando no conjunto de teste...")
-y_pred = melhor_modelo.predict(X_test)
+
+# ⚠️ Conversão do X_test para a GPU com cupy
+X_test_gpu = cp.array(X_test)
+dtest = DMatrix(X_test_gpu)
+
+# Previsão com inplace_predict (sem warnings)
+y_pred = melhor_modelo.inplace_predict(dtest)
+y_pred = np.round(y_pred).astype(int)  # binariza a saída do modelo (0 ou 1)
+
 acc = accuracy_score(y_test, y_pred)
 f1 = f1_score(y_test, y_pred, average='weighted')
 cm = confusion_matrix(y_test, y_pred)
