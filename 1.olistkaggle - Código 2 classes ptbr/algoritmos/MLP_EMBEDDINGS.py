@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -20,23 +20,24 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.15, stratify=y, random_state=42
 )
 
-# 4. Espaço de busca para RandomizedSearchCV (igual ao param_grid antes)
-param_dist = [
-    {'kernel': ['linear'], 'C': [0.1, 1, 10]},
-    {'kernel': ['rbf'], 'C': [0.1, 1, 10], 'gamma': ['scale', 'auto']},
-    {'kernel': ['poly'], 'C': [0.1, 1, 10], 'degree': [2, 3], 'gamma': ['scale', 'auto']},
-    {'kernel': ['sigmoid'], 'C': [0.1, 1, 10], 'gamma': ['scale', 'auto']}
-]
+# 4. Grid de hiperparâmetros
+param_grid = {
+    'hidden_layer_sizes': [(100,), (100, 50)],
+    'activation': ['identity', 'logistic', 'tanh', 'relu'],
+    'solver': ['lbfgs', 'sgd', 'adam'],
+    'alpha': [0.0001, 0.001],
+    'learning_rate': ['constant', 'invscaling', 'adaptive']  # será ignorado exceto quando solver='sgd'
+}
 
-# 5. RandomizedSearchCV com validação cruzada, testando 20 combinações aleatórias
-print("🔄 Iniciando RandomizedSearchCV com todos os kernels do SVM...")
-clf = SVC(class_weight='balanced', probability=True, random_state=42)
-random_search = RandomizedSearchCV(clf, param_dist, n_iter=20, cv=5, scoring='f1_weighted', n_jobs=-1, random_state=42)
-random_search.fit(X_train, y_train)
+# 5. GridSearchCV com validação cruzada
+print("🔄 Iniciando GridSearchCV com MLP...")
+clf = MLPClassifier(max_iter=500, early_stopping=True, random_state=42)
+grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1, error_score='raise')
+grid_search.fit(X_train, y_train)
 
 # 6. Melhor modelo
-melhor_modelo = random_search.best_estimator_
-print(f"✅ Melhores parâmetros encontrados: {random_search.best_params_}")
+melhor_modelo = grid_search.best_estimator_
+print(f"✅ Melhores parâmetros encontrados: {grid_search.best_params_}")
 
 # 7. Avaliação no conjunto de teste
 print("🔍 Avaliando no conjunto de teste...")
@@ -54,7 +55,7 @@ plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Negative", "Positive"], yticklabels=["Negative", "Positive"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - SVM Embeddings (15% Test)")
-plt.savefig("MC_svm_embeddings.png")
+plt.title("Confusion Matrix - MLP Embeddings (15% Test)")
+plt.savefig("MC_mlp_embeddings.png")
 plt.close()
-print("✅ Matriz salva como 'MC_svm_embeddings.png'.")
+print("✅ Matriz salva como 'MC_mlp_embeddings.png'.")
