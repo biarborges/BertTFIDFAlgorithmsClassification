@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
@@ -22,16 +22,16 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # 4. Espaço de busca para RandomizedSearchCV (igual ao param_grid antes)
 param_dist = [
-    {'kernel': ['linear'], 'C': [0.1, 1, 10]},
-    {'kernel': ['rbf'], 'C': [0.1, 1, 10], 'gamma': ['scale', 'auto']},
-    {'kernel': ['poly'], 'C': [0.1, 1, 10], 'degree': [2, 3], 'gamma': ['scale', 'auto']},
-    {'kernel': ['sigmoid'], 'C': [0.1, 1, 10], 'gamma': ['scale', 'auto']}
+    {'kernel': ['linear'], 'C': [0.1, 1, 10]},  # mais simples e rápido
+    {'kernel': ['rbf'], 'C': [1, 10], 'gamma': ['scale']},  # menos combinações
+    {'kernel': ['poly'], 'C': [1], 'degree': [2], 'gamma': ['scale']},  # só 1 grau e valores fixos
+    {'kernel': ['sigmoid'], 'C': [1], 'gamma': ['scale']}  # poucas combinações
 ]
 
-# 5. RandomizedSearchCV com validação cruzada, testando 20 combinações aleatórias
+# 5. RandomizedSearchCV com validação cruzada, testando combinações aleatórias
 print("🔄 Iniciando RandomizedSearchCV com todos os kernels do SVM...")
-clf = SVC(class_weight='balanced', probability=True, random_state=42)
-random_search = RandomizedSearchCV(clf, param_dist, n_iter=20, cv=5, scoring='f1_weighted', n_jobs=-1, random_state=42)
+clf = LinearSVC(class_weight='balanced', probability=True, random_state=42)
+random_search = RandomizedSearchCV(clf, param_dist, n_iter=10, cv=5, scoring='f1_weighted', n_jobs=-1, random_state=42)
 random_search.fit(X_train, y_train)
 
 # 6. Melhor modelo

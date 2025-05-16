@@ -1,6 +1,6 @@
 import optuna
 from transformers import Trainer, TrainingArguments, AutoModelForSequenceClassification, AutoTokenizer
-from datasets import load_metric
+import evaluate
 import torch
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
@@ -11,11 +11,11 @@ import pandas as pd
 
 # 1. Carregar o dataset bruto (exemplo CSV)
 print("🔄 Carregando os dados...")
-df = pd.read_csv("corpus_processadoBERT_classesNumericas.csv")  # Ajuste para seu caminho
+df = pd.read_csv("../corpus_processadoBERT_classesNumericas.csv", quotechar='"', encoding='utf-8')
 
 # Supondo que o dataframe tem colunas 'text' e 'label'
-texts = df['text'].tolist()
-labels = df['label'].tolist()
+texts = df['review_text_processed'].fillna("").astype(str)
+labels = df['polarity'].astype(int)
 
 # 2. Dividir em treino (70%), validação (15%) e teste (15%)
 X_train_val, X_test, y_train_val, y_test = train_test_split(
@@ -47,7 +47,7 @@ train_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', '
 val_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 test_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 
-metric = load_metric("f1")
+metric = evaluate.load("f1")
 
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
@@ -66,7 +66,7 @@ def objective(trial):
 
     training_args = TrainingArguments(
         output_dir="./results",
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
         save_strategy="epoch",
         learning_rate=learning_rate,
         per_device_train_batch_size=batch_size,
