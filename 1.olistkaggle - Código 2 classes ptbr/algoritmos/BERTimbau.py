@@ -8,12 +8,17 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from datasets import Dataset
+
+# Verificar se a GPU está disponível
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"🚀 Usando dispositivo: {device}")
 
 # 1. Carregar o dataset bruto (exemplo CSV)
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_processadoBERT_classesNumericas.csv", quotechar='"', encoding='utf-8')
 
-# Supondo que o dataframe tem colunas 'text' e 'label'
+# Supondo que o dataframe tem colunas 'review_text_processed' e 'polarity'
 texts = df['review_text_processed'].fillna("").astype(str)
 labels = df['polarity'].astype(int)
 
@@ -23,8 +28,7 @@ X_train_val, X_test, y_train_val, y_test = train_test_split(
 )
 X_train, X_val, y_train, y_val = train_test_split(
     X_train_val, y_train_val, test_size=0.1765, stratify=y_train_val, random_state=42
-)  
-# 0.1765 * 0.85 ≈ 0.15, assim validação é ~15%
+)  # 0.1765 * 0.85 ≈ 0.15
 
 # 3. Tokenizer
 tokenizer = AutoTokenizer.from_pretrained("neuralmind/bert-base-portuguese-cased")
@@ -33,8 +37,6 @@ def tokenize_function(texts):
     return tokenizer(texts, truncation=True, padding="max_length", max_length=512)
 
 # 4. Tokenizar os splits e converter para datasets do HuggingFace
-from datasets import Dataset
-
 train_dataset = Dataset.from_dict({'text': X_train, 'labels': y_train})
 val_dataset = Dataset.from_dict({'text': X_val, 'labels': y_val})
 test_dataset = Dataset.from_dict({'text': X_test, 'labels': y_test})
@@ -47,6 +49,7 @@ train_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', '
 val_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 test_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 
+# Métrica
 metric = evaluate.load("f1")
 
 def compute_metrics(eval_pred):
@@ -54,9 +57,11 @@ def compute_metrics(eval_pred):
     predictions = np.argmax(logits, axis=-1)
     return metric.compute(predictions=predictions, references=labels, average='weighted')
 
+# Função para inicializar o modelo
 def model_init():
-    return AutoModelForSequenceClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=2)
+    return AutoModelForSequenceClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=2).to(device)
 
+# Função objetivo do Optuna
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 5e-5, log=True)
     batch_size = trial.suggest_categorical("per_device_train_batch_size", [2, 4, 8])
@@ -78,6 +83,7 @@ def objective(trial):
         load_best_model_at_end=True,
         metric_for_best_model="f1",
         greater_is_better=True,
+        report_to="none"  # Evita erros se você não usa wandb/tensorboard
     )
 
     trainer = Trainer(
@@ -117,6 +123,7 @@ def objective(trial):
 
     return eval_result["eval_f1"]
 
+# Rodar otimização
 study = optuna.create_study(direction="maximize")
 study.optimize(objective, n_trials=10)
 

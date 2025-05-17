@@ -8,11 +8,12 @@ import matplotlib.pyplot as plt
 
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
-df = pd.read_pickle("../corpus_embeddings.pkl")
+df = pd.read_csv("../corpus_tfidf.csv")
 
-# 2. Separar embeddings e classes
-X = np.vstack(df['embedding'].values)
+# 2. Separar características e classe
+X = df.drop(columns=['polarity']).values
 y = df['polarity'].values
+
 
 print("🔄 Dividindo dados em treino (85%) e teste (15%)...")
 X_train, X_test, y_train, y_test = train_test_split(
@@ -60,6 +61,6 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Negative", "P
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
 plt.title("Confusion Matrix - SVM TF-IDF (15% Test)")
-plt.savefig("MC_svm_embeddings.png")
+plt.savefig("MC_svm_tfidf.png")
 plt.close()
-print("✅ Matriz salva como 'MC_svm_embeddings.png'.")
+print("✅ Matriz salva como 'MC_svm_tfidf.png'.")
