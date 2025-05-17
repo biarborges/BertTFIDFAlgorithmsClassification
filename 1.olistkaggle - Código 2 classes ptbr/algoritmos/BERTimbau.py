@@ -116,10 +116,10 @@ def objective(trial):
                 yticklabels=["Negative", "Positive"])
     plt.xlabel("Predicted Class")
     plt.ylabel("Actual Class")
-    plt.title("Confusion Matrix - BERTimbau (Test Set)")
-    plt.savefig("MC_bertimbau_test.png")
+    plt.title("Confusion Matrix - BERTimbau (15% Test)")
+    plt.savefig("MC_bertimbau.png")
     plt.close()
-    print("✅ Matriz salva como 'MC_bertimbau_test.png'.")
+    print("✅ Matriz salva como 'MC_bertimbau.png'.")
 
     return eval_result["eval_f1"]
 

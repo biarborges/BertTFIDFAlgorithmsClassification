@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_tfidf.csv")
+df = df.astype('float32')
 
 # 2. Separar características e classe
 X = df.drop(columns=['FakeTrue']).values
