@@ -61,18 +61,17 @@ def compute_metrics(eval_pred):
 def model_init():
     return AutoModelForSequenceClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=2).to(device)
 
-# Função objetivo do Optuna
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 5e-5, log=True)
-    batch_size = trial.suggest_categorical("per_device_train_batch_size", [2, 4, 8])
-    gradient_accumulation_steps = trial.suggest_int("gradient_accumulation_steps", 2, 3, 4)
+    batch_size = trial.suggest_categorical("per_device_train_batch_size", [4, 8])
+    gradient_accumulation_steps = trial.suggest_int("gradient_accumulation_steps", 4, 8, 16)
     num_train_epochs = trial.suggest_int("num_train_epochs", 2, 3, 4)
-    weight_decay = trial.suggest_float("weight_decay", 0.0, 0.3)
+    weight_decay = trial.suggest_float("weight_decay", 0.0, 0.1)
 
     training_args = TrainingArguments(
         output_dir="./results",
-        eval_strategy="epoch",
-        save_strategy="epoch",
+        evaluation_strategy="epoch",
+        save_strategy="no",  # **Não salvar checkpoints durante a busca**
         learning_rate=learning_rate,
         per_device_train_batch_size=batch_size,
         gradient_accumulation_steps=gradient_accumulation_steps,
@@ -80,10 +79,10 @@ def objective(trial):
         weight_decay=weight_decay,
         logging_dir='./logs',
         logging_steps=50,
-        load_best_model_at_end=True,
+        load_best_model_at_end=False,
         metric_for_best_model="f1",
         greater_is_better=True,
-        report_to="none"  # Evita erros se você não usa wandb/tensorboard
+        report_to="none"
     )
 
     trainer = Trainer(
@@ -96,35 +95,70 @@ def objective(trial):
 
     trainer.train()
     eval_result = trainer.evaluate()
-
-    print("🔍 Avaliando no conjunto de teste...")
-    test_pred = trainer.predict(test_dataset)
-    y_pred = np.argmax(test_pred.predictions, axis=1)
-    y_true = np.array(test_pred.label_ids)
-
-    acc = accuracy_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred, average='weighted')
-    cm = confusion_matrix(y_true, y_pred)
-
-    print(f"Acurácia (teste): {acc:.4f}")
-    print(f"F1-score (teste): {f1:.4f}")
-    print(f"Matriz de Confusão (teste):\n{cm}")
-
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
-                xticklabels=["Negative", "Positive"],
-                yticklabels=["Negative", "Positive"])
-    plt.xlabel("Predicted Class")
-    plt.ylabel("Actual Class")
-    plt.title("Confusion Matrix - BERTimbau (15% Test)")
-    plt.savefig("MC_bertimbau.png")
-    plt.close()
-    print("✅ Matriz salva como 'MC_bertimbau.png'.")
-
     return eval_result["eval_f1"]
 
-# Rodar otimização
+
 study = optuna.create_study(direction="maximize")
 study.optimize(objective, n_trials=10)
 
 print("Melhores parâmetros:", study.best_params)
+
+# Treinar novamente com os melhores parâmetros e salvar modelo e métricas
+best_params = study.best_params
+
+training_args = TrainingArguments(
+    output_dir="./best_model",
+    evaluation_strategy="epoch",
+    save_strategy="epoch",  # Salva checkpoints aqui, pois é o treino final
+    learning_rate=best_params['learning_rate'],
+    per_device_train_batch_size=best_params['per_device_train_batch_size'],
+    gradient_accumulation_steps=best_params['gradient_accumulation_steps'],
+    num_train_epochs=best_params['num_train_epochs'],
+    weight_decay=best_params['weight_decay'],
+    logging_dir='./logs',
+    logging_steps=50,
+    load_best_model_at_end=True,
+    metric_for_best_model="f1",
+    greater_is_better=True,
+    report_to="none",
+    save_total_limit=1  # Para manter só 1 checkpoint
+)
+
+trainer = Trainer(
+    model_init=model_init,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=val_dataset,
+    compute_metrics=compute_metrics,
+)
+
+trainer.train()
+eval_result = trainer.evaluate()
+
+print("Avaliação final no conjunto de validação:")
+print(eval_result)
+
+print("🔍 Avaliando no conjunto de teste...")
+test_pred = trainer.predict(test_dataset)
+y_pred = np.argmax(test_pred.predictions, axis=1)
+y_true = np.array(test_pred.label_ids)
+
+acc = accuracy_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred, average='weighted')
+cm = confusion_matrix(y_true, y_pred)
+
+print(f"Acurácia (teste): {acc:.4f}")
+print(f"F1-score (teste): {f1:.4f}")
+print(f"Matriz de Confusão (teste):\n{cm}")
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
+            xticklabels=["Negative", "Positive"],
+            yticklabels=["Negative", "Positive"])
+plt.xlabel("Predicted Class")
+plt.ylabel("Actual Class")
+plt.title("Confusion Matrix - BERTimbau (15% Test)")
+plt.savefig("MC_bertimbau.png")
+plt.close()
+print("✅ Matriz salva como 'MC_bertimbau.png'.")
+
