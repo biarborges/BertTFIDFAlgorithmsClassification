@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.svm import LinearSVC
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -14,30 +14,36 @@ df = pd.read_pickle("../corpus_embeddings.pkl")
 X = np.vstack(df['embedding'].values)
 y = df['categoria'].values
 
-# 3. Dividir em treino (85%) e teste (15%)
 print("🔄 Dividindo dados em treino (85%) e teste (15%)...")
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.15, stratify=y, random_state=42
 )
 
-# 4. Grid de hiperparâmetros
-param_grid = {
-    'max_depth': [10, 15, 20],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4]
+# Espaço de busca para LinearSVC
+param_dist = {
+    'C': [0.01, 0.1, 1, 10, 100],
+    'loss': ['hinge', 'squared_hinge'],
+    'tol': [1e-3, 1e-4, 1e-5],
 }
 
-# 5. GridSearchCV com validação interna (cross-validation) no treino
-print("🔄 Iniciando GridSearchCV...")
-clf = DecisionTreeClassifier(class_weight='balanced', random_state=42)
-grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1)
-grid_search.fit(X_train, y_train)
+print("🔄 Iniciando RandomizedSearchCV com LinearSVC...")
+clf = LinearSVC(class_weight='balanced', random_state=42, max_iter=5000)
 
-# 6. Melhor modelo
-melhor_modelo = grid_search.best_estimator_
-print(f"✅ Melhores parâmetros encontrados: {grid_search.best_params_}")
+random_search = RandomizedSearchCV(
+    clf,
+    param_distributions=param_dist,
+    n_iter=10,
+    cv=5,
+    scoring='f1_weighted',
+    n_jobs=-1,
+    random_state=42
+)
 
-# 7. Avaliação no conjunto de teste (nunca usado antes)
+random_search.fit(X_train, y_train)
+
+melhor_modelo = random_search.best_estimator_
+print(f"✅ Melhores parâmetros encontrados: {random_search.best_params_}")
+
 print("🔍 Avaliando no conjunto de teste...")
 y_pred = melhor_modelo.predict(X_test)
 acc = accuracy_score(y_test, y_pred)
@@ -53,7 +59,7 @@ plt.figure(figsize=(10, 8))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"], yticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - Decision Tree Embeddings (15% Test)")
-plt.savefig("MC_arvore_embeddings.png")
+plt.title("Confusion Matrix - SVM Embeddings (15% Test)")
+plt.savefig("MC_svm_embeddings.png")
 plt.close()
-print("✅ Matriz salva como 'MC_arvore_embeddings.png'.")
+print("✅ Matriz salva como 'MC_svm_embeddings.png'.")

@@ -6,3 +6,6 @@ sports → 3
 technology → 4
 
 2k cada
+
+
+"business", "education", "entertainment", "sports", "technology"

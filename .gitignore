@@ -4,3 +4,15 @@ resultados/
 
 2.fake.br - Código 2 classes ptbr/corpus_embeddings.pkl
 2.fake.br - Código 2 classes ptbr/corpus_tfidf.csv
+
+1.olistkaggle - Código 2 classes ptbr/corpus_tfidf.csv
+1.olistkaggle - Código 2 classes ptbr/corpus_embeddings.pkl
+
+3.fake.br Multi - Código multi classes ptbr/corpus_tfidf.csv
+3.fake.br Multi - Código multi classes ptbr/corpus_embeddings.pkl
+
+4.sentihood - Código 2 classes ing/corpus_tfidf.csv
+4.sentihood - Código 2 classes ing/corpus_embeddings.pkl
+
+5.newskaggle - Código multi classes ing/corpus_tfidf.csv
+5.newskaggle - Código multi classes ing/corpus_embeddings.pkl

@@ -10,11 +10,12 @@ from sklearn.feature_selection import SelectKBest, chi2
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_tfidf.csv")
+df = df.drop(columns=['FakeTrue'])  # Remove a coluna que causa o erro
+df = df.astype('float32')  # Converte o restante para float32
 
-# 2. Separar características e classe
-X = df.drop(columns=['polarity']).values
-y = df['polarity'].values
-
+# 2. Separar embeddings e classes
+X = df.drop(columns=['categoria']).values
+y = df['categoria'].values
 
 # 🔄 Testando diferentes valores de k
 ks = [1000, 2000, 3000]
@@ -72,6 +73,7 @@ random_search.fit(X_train, y_train)
 melhor_modelo = random_search.best_estimator_
 print(f"✅ Melhores parâmetros encontrados: {random_search.best_params_}")
 
+# Avaliação no conjunto de teste
 print("🔍 Avaliando no conjunto de teste...")
 y_pred = melhor_modelo.predict(X_test)
 acc = accuracy_score(y_test, y_pred)
@@ -82,12 +84,12 @@ print(f"Acurácia: {acc:.4f}")
 print(f"F1-score: {f1:.4f}")
 print(f"Matriz de Confusão:\n{cm}")
 
-# 8. Matriz de confusão
-plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Negative", "Positive"], yticklabels=["Negative", "Positive"])
+# Matriz de confusão
+plt.figure(figsize=(10, 8))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"], yticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - SVM TF-IDF (15% Test)")
+plt.title(f"Confusion Matrix - SVM TF-IDF (k={melhor_k})")
 plt.savefig("MC_svm_tfidf.png")
 plt.close()
 print("✅ Matriz salva como 'MC_svm_tfidf.png'.")

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
@@ -8,8 +9,10 @@ import matplotlib.pyplot as plt
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_tfidf.csv")
+df = df.astype('float32')  # Converte o restante para float32
 
-# 2. Separar características e classe
+
+# 2. Separar embeddings e classes
 X = df.drop(columns=['category']).values
 y = df['category'].values
 
@@ -21,14 +24,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # 4. Grid de hiperparâmetros
 param_grid = {
-    'max_depth': [5, 10, 15],
+    'max_depth': [10, 15, 20],
     'min_samples_split': [2, 5, 10],
     'min_samples_leaf': [1, 2, 4]
 }
 
 # 5. GridSearchCV com validação interna (cross-validation) no treino
 print("🔄 Iniciando GridSearchCV...")
-clf = DecisionTreeClassifier(random_state=42)
+clf = DecisionTreeClassifier(class_weight='balanced', random_state=42)
 grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1)
 grid_search.fit(X_train, y_train)
 
@@ -48,11 +51,11 @@ print(f"F1-score: {f1:.4f}")
 print(f"Matriz de Confusão:\n{cm}")
 
 # 8. Matriz de confusão
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(9, 7))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["business", "education", "entertainment", "sports", "technology"], yticklabels=["business", "education", "entertainment", "sports", "technology"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - Decision Tree TF-IDF (15% Test)")
+plt.title("Confusion Matrix - Decision Tree Embeddings (15% Test)")
 plt.savefig("MC_arvore_tfidf.png")
 plt.close()
 print("✅ Matriz salva como 'MC_arvore_tfidf.png'.")

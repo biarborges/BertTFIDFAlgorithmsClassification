@@ -18,7 +18,6 @@ print(f"🚀 Usando dispositivo: {device}")
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_processadoBERT_classesNumericas.csv", quotechar='"', encoding='utf-8')
 
-# Supondo que o dataframe tem colunas 'review_text_processed' e 'polarity'
 texts = df['review_text_processed'].fillna("").astype(str)
 labels = df['polarity'].astype(int)
 

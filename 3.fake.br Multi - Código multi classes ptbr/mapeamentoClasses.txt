@@ -20,3 +20,6 @@ sociedade_cotidiano    1276
 ciencia_tecnologia      112
 religiao                 44
 economia                 44
+
+
+"Science and Technology", "Economy", "Politics", "Religion", "Society and Daily Life", "TV and Celebrities"

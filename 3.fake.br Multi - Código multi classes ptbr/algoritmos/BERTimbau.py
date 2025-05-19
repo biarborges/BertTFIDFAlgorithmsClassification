@@ -19,7 +19,7 @@ print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_processadoBERT_classesNumericas.csv", quotechar='"', encoding='utf-8')
 
 texts = df['noticia'].fillna("").astype(str)
-labels = df['FakeTrue'].astype(int)
+labels = df['categoria'].astype(int)
 
 # 2. Dividir em treino (70%), validação (15%) e teste (15%)
 X_train_val, X_test, y_train_val, y_test = train_test_split(
@@ -58,7 +58,7 @@ def compute_metrics(eval_pred):
 
 # Função para inicializar o modelo
 def model_init():
-    return AutoModelForSequenceClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=2).to(device)
+    return AutoModelForSequenceClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=6).to(device)
 
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 5e-5, log=True)
@@ -150,10 +150,8 @@ print(f"Acurácia (teste): {acc:.4f}")
 print(f"F1-score (teste): {f1:.4f}")
 print(f"Matriz de Confusão (teste):\n{cm}")
 
-plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
-            xticklabels=["Fake", "True"],
-            yticklabels=["Fake", "True"])
+plt.figure(figsize=(10, 8))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"], yticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
 plt.title("Confusion Matrix - BERTimbau (15% Test)")

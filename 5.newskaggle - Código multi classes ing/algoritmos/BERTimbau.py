@@ -1,5 +1,5 @@
 import optuna
-from transformers import Trainer, TrainingArguments, AutoModelForSequenceClassification, AutoTokenizer
+from transformers import Trainer, TrainingArguments, BertForSequenceClassification, AutoTokenizer
 import evaluate
 import torch
 from sklearn.model_selection import train_test_split
@@ -18,8 +18,8 @@ print(f"🚀 Usando dispositivo: {device}")
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_processadoBERT_classesNumericas.csv", quotechar='"', encoding='utf-8')
 
-texts = df['noticia'].fillna("").astype(str)
-labels = df['FakeTrue'].astype(int)
+texts = df['content'].fillna("").astype(str)
+labels = df['category'].astype(int)
 
 # 2. Dividir em treino (70%), validação (15%) e teste (15%)
 X_train_val, X_test, y_train_val, y_test = train_test_split(
@@ -30,7 +30,7 @@ X_train, X_val, y_train, y_val = train_test_split(
 )  # 0.1765 * 0.85 ≈ 0.15
 
 # 3. Tokenizer
-tokenizer = AutoTokenizer.from_pretrained("neuralmind/bert-base-portuguese-cased")
+tokenizer = AutoTokenizer.from_pretrained("bert-base-cased")
 
 def tokenize_function(texts):
     return tokenizer(texts, truncation=True, padding="max_length", max_length=512)
@@ -58,7 +58,7 @@ def compute_metrics(eval_pred):
 
 # Função para inicializar o modelo
 def model_init():
-    return AutoModelForSequenceClassification.from_pretrained("neuralmind/bert-base-portuguese-cased", num_labels=2).to(device)
+    return BertForSequenceClassification.from_pretrained("bert-base-cased", num_labels=5).to(device)
 
 def objective(trial):
     learning_rate = trial.suggest_float("learning_rate", 1e-5, 5e-5, log=True)
@@ -150,10 +150,8 @@ print(f"Acurácia (teste): {acc:.4f}")
 print(f"F1-score (teste): {f1:.4f}")
 print(f"Matriz de Confusão (teste):\n{cm}")
 
-plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
-            xticklabels=["Fake", "True"],
-            yticklabels=["Fake", "True"])
+plt.figure(figsize=(9, 7))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["business", "education", "entertainment", "sports", "technology"], yticklabels=["business", "education", "entertainment", "sports", "technology"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
 plt.title("Confusion Matrix - BERTimbau (15% Test)")

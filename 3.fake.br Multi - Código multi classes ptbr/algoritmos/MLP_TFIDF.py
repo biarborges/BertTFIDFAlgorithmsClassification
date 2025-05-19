@@ -10,11 +10,13 @@ from sklearn.feature_selection import SelectKBest, chi2
 # 1. Carregar os dados
 print("🔄 Carregando os dados...")
 df = pd.read_csv("../corpus_tfidf.csv")
-df = df.astype('float32')
+df = df.drop(columns=['FakeTrue'])  # Remove a coluna que causa o erro
+df = df.astype('float32')  # Converte o restante para float32
 
-# 2. Separar características e classe
-X = df.drop(columns=['polarity']).values
-y = df['polarity'].values
+
+# 2. Separar embeddings e classes
+X = df.drop(columns=['categoria']).values
+y = df['categoria'].values
 
 # 3. Seleção de k melhores features via chi2 + validação cruzada
 ks = [1000, 2000, 3000]
@@ -53,10 +55,10 @@ param_grid = {
     'activation': ['identity', 'logistic', 'tanh', 'relu'],
     'solver': ['lbfgs', 'sgd', 'adam'],
     'alpha': [0.0001, 0.001],
-    'learning_rate': ['constant', 'invscaling', 'adaptive']  # será ignorado exceto quando solver='sgd'
+    'learning_rate': ['constant', 'invscaling', 'adaptive']
 }
 
-# 5. GridSearchCV com validação cruzada
+# 5. GridSearchCV
 print("🔄 Iniciando GridSearchCV com MLP...")
 clf = MLPClassifier(max_iter=500, early_stopping=True, random_state=42)
 grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1, error_score='raise')
@@ -78,11 +80,11 @@ print(f"F1-score: {f1:.4f}")
 print(f"Matriz de Confusão:\n{cm}")
 
 # 8. Matriz de confusão
-plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Negative", "Positive"], yticklabels=["Negative", "Positive"])
+plt.figure(figsize=(10, 8))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"], yticklabels=["Science/Tec", "Economy", "Politics", "Religion", "Society", "TV/Celebrities"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - MLP TF-IDF (15% Test)")
+plt.title(f"Confusion Matrix - MLP TF-IDF (k={melhor_k})")
 plt.savefig("MC_mlp_tfidf.png")
 plt.close()
 print("✅ Matriz salva como 'MC_mlp_tfidf.png'.")

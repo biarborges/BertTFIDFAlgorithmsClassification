@@ -22,7 +22,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # 4. Grid de hiperparâmetros
 param_grid = {
-    'max_depth': [5, 10, 15],
+    'max_depth': [10, 15, 20],
     'min_samples_split': [2, 5, 10],
     'min_samples_leaf': [1, 2, 4]
 }
