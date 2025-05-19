@@ -68,7 +68,8 @@ clf = XGBClassifier(
     num_class=5,
     eval_metric='logloss',
     random_state=42,
-    tree_method='hist'
+    tree_method='hist',
+    device='cuda'  # ativa o uso da GPU
 )
 grid_search = GridSearchCV(clf, param_grid, cv=5, scoring='f1_weighted', n_jobs=-1)
 grid_search.fit(X_train, y_train)

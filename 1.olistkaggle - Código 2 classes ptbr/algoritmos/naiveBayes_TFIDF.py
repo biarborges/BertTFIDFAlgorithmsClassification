@@ -38,7 +38,7 @@ print(f"Matriz de Confusão:\n{cm}")
 
 # 6. Matriz de confusão
 plt.figure(figsize=(8, 6))
-sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=["Negative", "Positive"], yticklabels=["Negative", "Positive"])
+sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["Negative", "Positive"], yticklabels=["Negative", "Positive"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
 plt.title("Confusion Matrix - MultinomialNB TF-IDF (15% Test)")
