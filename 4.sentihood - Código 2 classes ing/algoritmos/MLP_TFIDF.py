@@ -84,7 +84,7 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
             yticklabels=["Negative", "Positive"],)
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title(f"Confusion Matrix - MLP TF-IDF (k={melhor_k})")
+plt.title(f"Confusion Matrix - MLP TF-IDF (15% Test)")
 plt.savefig("MC_mlp_tfidf.png")
 plt.close()
 print("✅ Matriz salva como 'MC_mlp_tfidf.png'.")

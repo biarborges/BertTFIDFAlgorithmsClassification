@@ -37,7 +37,7 @@ print(f"F1-score: {f1:.4f}")
 print(f"Matriz de Confusão:\n{cm}")
 
 # 6. Matriz de confusão
-plt.figure(figsize=(9, 7)
+plt.figure(figsize=(9, 7))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Purples", xticklabels=["business", "education", "entertainment", "sports", "technology"], yticklabels=["business", "education", "entertainment", "sports", "technology"])
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")

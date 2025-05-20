@@ -90,7 +90,7 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
             yticklabels=["Negative", "Positive"],)
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title(f"Confusion Matrix - SVM TF-IDF (k={melhor_k})")
+plt.title(f"Confusion Matrix - SVM TF-IDF (15% Test)")
 plt.savefig("MC_svm_tfidf.png")
 plt.close()
 print("✅ Matriz salva como 'MC_svm_tfidf.png'.")
