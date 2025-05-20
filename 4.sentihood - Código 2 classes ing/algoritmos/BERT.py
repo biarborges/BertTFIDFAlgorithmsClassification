@@ -156,8 +156,8 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Purples",
             yticklabels=["Negative", "Positive"],)
 plt.xlabel("Predicted Class")
 plt.ylabel("Actual Class")
-plt.title("Confusion Matrix - BERTimbau (15% Test)")
-plt.savefig("MC_bertimbau.png")
+plt.title("Confusion Matrix - BERT (15% Test)")
+plt.savefig("MC_bert.png")
 plt.close()
-print("✅ Matriz salva como 'MC_bertimbau.png'.")
+print("✅ Matriz salva como 'MC_bert.png'.")
 
