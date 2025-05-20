@@ -23,8 +23,8 @@ model.eval()
 
 # Carregar dados
 df = pd.read_csv(csv_path, quotechar='"', encoding='utf-8')
-texts = df['text'].fillna("").astype(str)
-labels = df['sentiment'].astype(int)
+texts = df['content'].fillna("").astype(str)
+labels = df['category'].astype(int)
 
 # Dividir dados (apenas replicando a divisão anterior)
 from sklearn.model_selection import train_test_split
