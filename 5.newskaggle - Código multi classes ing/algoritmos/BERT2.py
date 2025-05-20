@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🚀 Usando dispositivo: {device}")
 
 # Caminhos
-modelo_path = "/home/ubuntu/BertTFIDFAlgorithmsClassification/4.sentihood - Código 2 classes ing/algoritmos/best_model/checkpoint-874"
+modelo_path = "best_model/checkpoint-874"
 csv_path = "../corpus_processadoBERT_classesNumericas.csv"  # ajuste se necessário
 
 # Carregar tokenizer original (bert-base-cased) e modelo salvo
