@@ -1,6 +1,6 @@
 # Análise comparativa de algoritmos de classificação de texto
 
-Este projeto explora e compara o desempenho do BERT (Bidirectional Encoder Representations from Transformers) com algoritmos clássicos de classificação de texto (como Árvore de Decisão, XGBoost, Naive Bayes e SVM), bem como com arquiteturas de redes neurais, como Rede Neural Tradicional (MLP) e LSTM.
+Este projeto explora e compara o desempenho do BERT (Bidirectional Encoder Representations from Transformers) com algoritmos clássicos de classificação de texto (como Árvore de Decisão, XGBoost, Naive Bayes e SVM), bem como com arquiteturas de redes neurais, como Rede Neural Tradicional (MLP).
 
 ## Bases Utilizadas:
 * OlistKaggle: base em português com classificação binária
@@ -14,7 +14,7 @@ Os códigos estão separados por pastas das bases.
 
 # Comparative Analysis of Text Classification Algorithms
 
-This project explores and compares the performance of BERT (Bidirectional Encoder Representations from Transformers) with classical text classification algorithms (such as Decision Tree, XGBoost, Naive Bayes, and SVM), as well as with neural network architectures, such as Traditional Neural Network (MLP) and LSTM.
+This project explores and compares the performance of BERT (Bidirectional Encoder Representations from Transformers) with classical text classification algorithms (such as Decision Tree, XGBoost, Naive Bayes, and SVM), as well as with neural network architectures, such as Traditional Neural Network (MLP).
 
 ## Datasets Used:
 
